@@ -13,6 +13,13 @@ export default function LoginPage() {
     setLoading(true);
     setMessage(null);
 
+    // Strict Domain Validation
+    if (!email.trim().toLowerCase().endsWith('saiuniversity.edu.in')) {
+      setMessage({ type: 'error', text: 'Access restricted to saiuniversity.edu.in accounts only.' });
+      setLoading(false);
+      return;
+    }
+
     const { error } = await supabase.auth.signInWithOtp({
       email,
       options: {
@@ -110,7 +117,7 @@ export default function LoginPage() {
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
                 className="appearance-none block w-full px-4 py-4 rounded-none border-b border-black/20 bg-transparent placeholder-zinc-400 text-black focus:outline-none focus:border-black transition-colors"
-                placeholder="Ex. you@saiu.edu"
+                placeholder="Ex. you@scds.saiuniversity.edu.in"
               />
             </div>
 

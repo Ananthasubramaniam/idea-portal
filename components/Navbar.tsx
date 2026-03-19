@@ -11,9 +11,18 @@ export default function Navbar() {
 
   useEffect(() => {
     const getSession = async () => {
-      const { data: { session } } = await supabase.auth.getSession();
-      setUser(session?.user ?? null);
-      if (session?.user) checkAndCreateProfile(session.user);
+      try {
+        const { data: { session }, error: sessionError } = await supabase.auth.getSession();
+        if (sessionError) throw sessionError;
+        setUser(session?.user ?? null);
+        if (session?.user) checkAndCreateProfile(session.user);
+      } catch (error: any) {
+        // If refresh fails, we just don't set a user (logged out state)
+        if (error?.message?.includes('Refresh Token Not Found')) {
+          await supabase.auth.signOut();
+          setUser(null);
+        }
+      }
     };
     getSession();
 
@@ -34,6 +43,14 @@ export default function Navbar() {
   }, []);
 
   const checkAndCreateProfile = async (authUser: User) => {
+    // Aggressive fallback: Kick out any existing non-edu accounts
+    if (authUser.email && !authUser.email.toLowerCase().endsWith('saiuniversity.edu.in')) {
+      await supabase.auth.signOut();
+      alert("Access restricted: Only saiuniversity.edu.in educational accounts are allowed to use this portal.");
+      window.location.href = "/login";
+      return;
+    }
+
     const { error } = await supabase
       .from('users')
       .select('id')

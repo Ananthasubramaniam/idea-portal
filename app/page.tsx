@@ -120,22 +120,25 @@ export default async function Home() {
                 <div className="w-2 h-2 rounded-full bg-zinc-300"></div>
                 <span className="ml-auto label-thin text-zinc-400">Live Activity</span>
               </div>
-              <div className="relative h-full w-full mask-image-fade" style={{ WebkitMaskImage: "linear-gradient(to bottom, black 50%, transparent 100%)" }}>
-                {(tasks || []).slice(0, 4).map((task, i) => (
-                  <div 
-                    key={task.id} 
-                    className="absolute w-full animate-terminal opacity-0"
-                    style={{ animationDelay: `${i * 3}s` }}
-                  >
-                    <div className="flex gap-4 items-start mb-4">
-                      <div className="text-xs font-mono text-zinc-400 mt-0.5">{new Date(task.created_at || Date.now()).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}</div>
-                      <div>
-                        <div className="text-sm font-medium text-black">{task.title}</div>
-                        <div className="text-xs text-zinc-500 mt-1 uppercase tracking-wider">Looking for {task.team_size} collaborators • {task.reward_points} pts</div>
+              <div className="relative h-full w-full mask-image-fade overflow-hidden" style={{ WebkitMaskImage: "linear-gradient(to bottom, black 50%, transparent 100%)" }}>
+                <div className="animate-terminal flex flex-col gap-6">
+                  {[...(tasks || []), ...(tasks || []), ...(tasks || [])].map((task, i) => (
+                    <div 
+                      key={`${task.id}-${i}`} 
+                      className="w-full flex gap-4 items-start"
+                    >
+                      <div className="text-xs font-mono text-zinc-400 mt-0.5 shrink-0">
+                        {new Date(task.created_at || Date.now()).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
+                      </div>
+                      <div className="min-w-0">
+                        <div className="text-sm font-medium text-black truncate">{task.title}</div>
+                        <div className="text-xs text-zinc-500 mt-1 uppercase tracking-wider">
+                          Looking for {task.team_size} collaborators • {task.reward_points} pts
+                        </div>
                       </div>
                     </div>
-                  </div>
-                ))}
+                  ))}
+                </div>
               </div>
             </div>
 

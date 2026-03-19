@@ -38,15 +38,16 @@ body {
 }
 
 @keyframes terminal-scroll {
-  0% { opacity: 0; transform: translateY(20px); }
-  10% { opacity: 1; transform: translateY(0); }
-  80% { opacity: 1; transform: translateY(0); }
-  90% { opacity: 0; transform: translateY(-20px); }
-  100% { opacity: 0; transform: translateY(-20px); }
+  0% { transform: translateY(0); }
+  100% { transform: translateY(-50%); }
 }
 
 .animate-terminal {
-  animation: terminal-scroll 4s infinite;
+  animation: terminal-scroll 20s linear infinite;
+}
+
+.animate-terminal:hover {
+  animation-play-state: paused;
 }
 
 /* Base noise layer */

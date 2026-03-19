@@ -89,7 +89,7 @@ export default function ApplicationForm({ taskId }: ApplicationFormProps) {
             type="text"
             value={teamMembers}
             onChange={(e) => setTeamMembers(e.target.value)}
-            placeholder="e.g. meera@saiu.edu, rahul@saiu.edu"
+            placeholder="e.g. mahesh@saiuniversity.edu.in, rahul@saiuniversity.edu.in"
             className="w-full pb-4 bg-transparent border-b border-black/20 text-black focus:outline-none focus:border-black transition-colors rounded-none placeholder:text-zinc-300 text-[15px]"
           />
         </div>
